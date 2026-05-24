@@ -1,0 +1,20 @@
+digraph SSH_Attack_Flow {
+
+    rankdir=LR;
+    node [shape=box, style=rounded];
+
+    Attacker [label="Attacker\n(Brute Force / Spraying)"];
+    SSH [label="OpenSSH Service (sshd)"];
+    Auth [label="Authentication System"];
+    Logs [label="systemd Journal Logs"];
+    Analyst [label="SOC Analyst"];
+    Detection [label="Detection Rules"];
+    Response [label="Response Actions\n(Fail2ban / Alerting)"];
+
+    Attacker -> SSH [label="Login Attempts"];
+    SSH -> Auth [label="Validate Credentials"];
+    Auth -> Logs [label="Log Failures"];
+    Logs -> Analyst [label="Log Analysis"];
+    Analyst -> Detection [label="Apply Rules"];
+    Detection -> Response [label="Trigger Action"];
+}
