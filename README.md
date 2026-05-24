@@ -2,6 +2,12 @@
 
 ## Overview
 
+## Attack Flow Diagram
+
+![SSH Attack Flow](diagrams/ssh-attack-flow.png)
+
+This diagram illustrates how SSH brute-force and username spraying attempts are processed from initial attack to detection and response within the system.
+
 This project simulates and analyzes SSH-based attack patterns in a controlled Linux environment. It demonstrates how raw authentication logs can be used to identify brute force and username spraying activity, and how detection logic can be derived from observed behavior.
 
 The goal is to replicate a basic SOC (Security Operations Center) workflow:
