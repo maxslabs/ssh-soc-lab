@@ -2,6 +2,30 @@
 
 ## Overview
 
+## SOC Incident Summary
+
+This project simulates a real-world SSH brute-force and username spraying attack scenario in a controlled Linux environment.
+
+The objective is to demonstrate how security telemetry (authentication logs) can be used to detect malicious activity and how automated defense mechanisms (Fail2ban) respond to repeated unauthorized access attempts.
+
+The workflow follows a basic SOC detection lifecycle:
+- Attack simulation
+- Log generation
+- Pattern detection
+- Automated response
+- Evidence documentation
+
+## Incident Timeline
+
+| Time | Event |
+|------|------|
+| T+0 | SSH brute-force attack simulated using repeated login attempts |
+| T+1 | System logs generated authentication failures (`journalctl`) |
+| T+2 | Repeated failed logins identified via log filtering |
+| T+3 | Fail2ban detects threshold breach |
+| T+4 | IP/user blocked automatically by Fail2ban |
+| T+5 | Incident evidence collected and documented |
+
 ## Attack Flow Diagram
 
 ![SSH Attack Flow](diagrams/ssh-attack-flow.png)
@@ -94,4 +118,13 @@ See `/detections/detection-rules.md` for full logic.
 
 ## Conclusion
 
-This project demonstrates how security logs can be transformed into actionable detection logic. It provides foundational SOC experience in identifying authentication-based attack patterns in Linux systems.
+This project demonstrates a full security detection and response lifecycle for SSH-based attacks in a Linux environment.
+
+It shows practical ability in:
+- Linux system monitoring
+- Authentication log analysis
+- Attack pattern recognition
+- Automated defense configuration (Fail2ban)
+- SOC-style incident documentation
+
+This lab simulates foundational SOC analyst workflows used in real-world security operations centers.
