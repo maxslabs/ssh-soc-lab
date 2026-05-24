@@ -2,125 +2,90 @@
 
 ## Overview
 
-This project is a Linux-based SOC (Security Operations Center) lab designed to simulate, observe, and analyze SSH-based attack patterns including brute-force attempts and username spraying.
+This project simulates and analyzes SSH-based attack patterns in a controlled Linux environment. It demonstrates how raw authentication logs can be used to identify brute force and username spraying activity, and how detection logic can be derived from observed behavior.
 
-The goal is to demonstrate practical understanding of:
-- Linux system logging (systemd journal)
-- SSH authentication behavior
-- Attack pattern recognition
-- Basic detection engineering concepts
-
-This lab was performed on a Debian-based system in a controlled environment.
+The goal is to replicate a basic SOC (Security Operations Center) workflow:
+- Observe security events
+- Analyze logs
+- Identify attack patterns
+- Develop detection logic
 
 ---
 
-## Objectives
+## Why This Project Matters
 
-- Simulate SSH authentication attacks in a safe local environment
-- Identify brute-force and username spraying patterns in logs
-- Analyze system logs using `journalctl`
-- Develop basic detection logic for suspicious authentication behavior
-- Document findings in a SOC-style incident format
+SSH brute force attacks are one of the most common threats targeting Linux servers. Understanding how these attacks appear in logs is a foundational SOC skill used in real-world monitoring, incident detection, and threat response.
+
+This project demonstrates practical, hands-on understanding of:
+- Linux log analysis
+- Authentication event monitoring
+- Basic detection engineering
+- Attack pattern recognition
 
 ---
 
 ## Environment
 
-- OS: Debian Linux
+- OS: Debian Linux (T480)
 - Service: OpenSSH (sshd)
 - Logging: systemd journal (`journalctl`)
-- Environment: Local lab (T480 machine)
+- Setup: Local isolated lab environment
 
 ---
 
-## Attack Simulation Summary
+## What Was Simulated
 
-The following attack behaviors were simulated:
-
-### 1. Brute Force Attempts
-Repeated login attempts using invalid credentials against a single account.
+### 1. Brute Force Attacks
+Repeated login attempts against SSH using invalid credentials.
 
 ### 2. Username Spraying
-Multiple usernames were tested against the SSH service to identify valid accounts.
+Attempts using multiple common usernames to identify valid accounts.
 
-Example usernames used:
-- admin
-- root
-- test
-- guest
-- kali
-- ubuntu
-
-### 3. Evasion Behavior Simulation
-Slower, spaced-out login attempts were used to simulate low-and-slow attack patterns.
+### 3. Low-and-Slow Attempts
+Distributed login attempts over time to simulate stealth behavior.
 
 ---
 
-## Observed Log Evidence
+## Key Findings
 
-Key log patterns observed during testing:
-
-- `Failed password for invalid user`
-- `Invalid user <username> from ::1`
-- `Connection closed by invalid user`
-- PAM authentication failures
-
-These entries indicate repeated authentication failure patterns consistent with automated attack behavior.
+- SSH logs clearly expose invalid login attempts and usernames
+- Attack patterns can be identified through repetition and timing
+- Both brute force and spraying behaviors are distinguishable in logs
+- Localhost simulation behaves similarly to external attack patterns
 
 ---
 
-## Detection Logic (SOC Perspective)
+## Detection Logic Developed
 
-Based on observed behavior, the following detection rules were identified:
+This project defines basic detection rules for:
 
-### Rule 1: Brute Force Detection
-Trigger when:
-- Multiple failed login attempts
-- Same source IP or host
-- Short time window (e.g. < 60 seconds)
+- Repeated failed login attempts (brute force)
+- Multiple usernames from same source (spraying)
+- Persistent low-frequency authentication attempts (low-and-slow)
 
-### Rule 2: Username Spraying Detection
-Trigger when:
-- Multiple invalid usernames from the same source
-- Repeated authentication failures across different accounts
-
-### Rule 3: Low-and-Slow Attack Pattern
-Trigger when:
-- Failed login attempts are spread over time
-- No rapid burst, but persistent attempts continue
-
----
-
-## Security Insights
-
-- SSH services log detailed authentication failures by default via systemd journal
-- Username enumeration is visible in logs when invalid accounts are probed
-- Attackers may vary timing to avoid simple threshold-based detection
-- Local testing confirms how real-world brute-force patterns appear in logs
+See `/detections/detection-rules.md` for full logic.
 
 ---
 
 ## MITRE ATT&CK Mapping
 
 - T1110 – Brute Force
-- T1110.003 – Credential Stuffing (conceptually related)
-- T1589 – Credential Access Techniques (user enumeration behavior)
+- T1110.003 – Password Spraying
+- T1589 – Credential Access Techniques
 
 ---
 
-## Key Learning Outcome
+## Skills Demonstrated
 
-This lab demonstrates how raw Linux logs can be used to:
-- Identify attack patterns
-- Build basic detection logic
-- Understand attacker behavior
-- Translate system activity into SOC-style incident analysis
+- Linux system administration
+- SSH service monitoring
+- Log analysis using `journalctl`
+- Security event interpretation
+- Basic SOC detection engineering
+- Git-based workflow (CLI)
 
 ---
 
-## Future Improvements
+## Conclusion
 
-- Integrate Fail2ban tuning analysis
-- Add SIEM-style detection queries (Splunk / Elastic concepts)
-- Expand into multi-host attack simulation
-- Add visual attack flow diagrams
+This project demonstrates how security logs can be transformed into actionable detection logic. It provides foundational SOC experience in identifying authentication-based attack patterns in Linux systems.
